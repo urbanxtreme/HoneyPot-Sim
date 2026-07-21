@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RL Honeypot Simulator — SOC Dashboard</title>
+    <meta
+      name="description"
+      content="Reinforcement Learning Driven Honeypot Simulator for Industrial Control Systems — IEEE Research Demonstration"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- ================= HEADER ================= -->
+
+      <header>
+        <div class="title">
+          <h1>
+            <i class="fa-solid fa-shield-halved header-icon"></i>
+            RL Honeypot Simulator
+          </h1>
+          <p>
+            Reinforcement Learning Driven Adaptive Honeypot for Industrial
+            Control Systems
+          </p>
+        </div>
+
+        <div class="status-card">
+          <span class="status-dot"></span>
+          <span>ICS STATUS : ONLINE</span>
+        </div>
+      </header>
+
+      <!-- ================= SECTION 1: ARCHITECTURE DIAGRAM ================= -->
+
+      <section class="arch-section">
+        <h2 class="section-title">
+          <i class="fa-solid fa-diagram-project"></i>
+          System Architecture
+        </h2>
+
+        <div class="arch-flow">
+          <!-- Attacker -->
+          <div class="arch-block" id="archAttacker">
+            <div class="arch-icon"><i class="fa-solid fa-user-secret"></i></div>
+            <span>Attacker</span>
+          </div>
+
+          <div class="arch-connector">
+            <div class="arch-line"></div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+          <!-- Packet Capture -->
+          <div class="arch-block" id="archPacket">
+            <div class="arch-icon">
+              <i class="fa-solid fa-network-wired"></i>
+            </div>
+            <span>Packet Capture</span>
+          </div>
+
+          <div class="arch-connector">
+            <div class="arch-line"></div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+          <!-- MITRE Mapper -->
+          <div class="arch-block" id="archMitre">
+            <div class="arch-icon"><i class="fa-solid fa-crosshairs"></i></div>
+            <span>MITRE Mapper</span>
+          </div>
+
+          <div class="arch-connector">
+            <div class="arch-line"></div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+          <!-- RL Agent -->
+          <div class="arch-block" id="archRL">
+            <div class="arch-icon"><i class="fa-solid fa-brain"></i></div>
+            <span>RL Agent</span>
+          </div>
+
+          <div class="arch-connector">
+            <div class="arch-line"></div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+          <!-- Honeypot -->
+          <div class="arch-block" id="archHoneypot">
+            <div class="arch-icon"><i class="fa-solid fa-server"></i></div>
+            <span>Honeypot</span>
+          </div>
+
+          <div class="arch-connector">
+            <div class="arch-line"></div>
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+
+          <!-- Threat Intel -->
+          <div class="arch-block" id="archThreatIntel">
+            <div class="arch-icon"><i class="fa-solid fa-database"></i></div>
+            <span>Threat Intel</span>
+          </div>
+
+          <!-- Packet Dot (travels through the pipeline) -->
+          <div class="packet-dot" id="packetDot">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 4: MITRE ATT&CK TIMELINE ================= -->
+
+      <section class="mitre-timeline-section">
+        <h2 class="section-title">
+          <i class="fa-solid fa-timeline"></i>
+          MITRE ATT&CK Timeline
+        </h2>
+
+        <div class="mitre-timeline">
+          <div class="mitre-step" data-tactic="Reconnaissance">
+            <div class="mitre-dot"></div>
+            <span>Recon</span>
+          </div>
+          <div class="mitre-line"></div>
+
+          <div class="mitre-step" data-tactic="Discovery">
+            <div class="mitre-dot"></div>
+            <span>Discovery</span>
+          </div>
+          <div class="mitre-line"></div>
+
+          <div class="mitre-step" data-tactic="Collection">
+            <div class="mitre-dot"></div>
+            <span>Collection</span>
+          </div>
+          <div class="mitre-line"></div>
+
+          <div class="mitre-step" data-tactic="Execution">
+            <div class="mitre-dot"></div>
+            <span>Execution</span>
+          </div>
+          <div class="mitre-line"></div>
+
+          <div class="mitre-step" data-tactic="Impact">
+            <div class="mitre-dot"></div>
+            <span>Impact</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CONTROL PANEL ================= -->
+
+      <section class="control-panel">
+        <h2>
+          <i class="fa-solid fa-gamepad"></i>
+          Attack Simulation
+        </h2>
+
+        <div class="controls">
+          <select id="attackSelect">
+            <option value="">Select Attacker Action</option>
+            <option value="scan">Scan PLC</option>
+            <option value="read">Read Register</option>
+            <option value="write">Write Register</option>
+            <option value="upload">Upload Malware</option>
+            <option value="stop">Stop PLC</option>
+          </select>
+
+          <button id="executeBtn">
+            <i class="fa-solid fa-bolt"></i>
+            Execute Attack
+          </button>
+
+          <button id="resetBtn">
+            <i class="fa-solid fa-rotate-left"></i>
+            Reset
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 9: ATTACK PROGRESS ================= -->
+
+      <section class="progress-section">
+        <h2 class="section-title">
+          <i class="fa-solid fa-bars-progress"></i>
+          Attack Progress
+        </h2>
+
+        <div class="cyber-progress-wrapper">
+          <div class="progress">
+            <div class="progress-fill" id="progressBar">
+              <div class="progress-stripes"></div>
+            </div>
+            <span class="progress-percent" id="progressPercent">0%</span>
+          </div>
+          <p id="progressText" class="progress-stage">
+            Awaiting attack initiation...
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= MAIN GRID ================= -->
+
+      <main class="dashboard">
+        <!-- LEFT COLUMN -->
+
+        <div class="left-column">
+          <!-- SECTION 10: INCOMING PACKET (Enhanced) -->
+
+          <div class="card" id="packetCard">
+            <h3>
+              <i class="fa-solid fa-envelope-open-text"></i>
+              Incoming Packet
+            </h3>
+
+            <div class="info">
+              <div class="row">
+                <span><i class="fa-solid fa-satellite-dish"></i> Protocol</span>
+                <span id="protocol" class="packet-value">-</span>
+              </div>
+
+              <div class="row">
+                <span><i class="fa-solid fa-code"></i> Function</span>
+                <span id="functionCode" class="packet-value">-</span>
+              </div>
+
+              <div class="row">
+                <span><i class="fa-solid fa-location-dot"></i> Source IP</span>
+                <span id="sourceIP" class="packet-value">-</span>
+              </div>
+
+              <div class="row">
+                <span><i class="fa-solid fa-bullseye"></i> Destination</span>
+                <span id="destIP" class="packet-value">10.0.0.1 (PLC)</span>
+              </div>
+
+              <div class="row">
+                <span
+                  ><i class="fa-solid fa-weight-hanging"></i> Packet Size</span
+                >
+                <span id="packetSize" class="packet-value">-</span>
+              </div>
+
+              <div class="row">
+                <span><i class="fa-solid fa-signal"></i> Status</span>
+                <span id="packetStatus" class="packet-status-badge idle"
+                  >Idle</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- MITRE ATT&CK Mapping -->
+
+          <div class="card" id="mitreCard">
+            <h3>
+              <i class="fa-solid fa-crosshairs"></i>
+              MITRE ATT&CK Mapping
+            </h3>
+
+            <div class="badge" id="mitreStage">Waiting...</div>
+          </div>
+
+          <!-- SECTION 3: RL AGENT DECISION (with thinking animation) -->
+
+          <div class="card" id="rlCard">
+            <h3>
+              <i class="fa-solid fa-brain"></i>
+              RL Agent Decision
+            </h3>
+
+            <div class="rl-thinking-area">
+              <div class="radar-spinner" id="radarSpinner">
+                <div class="radar-circle"></div>
+                <div class="radar-sweep"></div>
+              </div>
+
+              <div id="thinking" class="thinking-text">
+                Waiting for attack...
+              </div>
+            </div>
+
+            <div class="rl-phases" id="rlPhases">
+              <div class="phase-item" data-phase="analyse">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                <span>Analysing Environment...</span>
+              </div>
+              <div class="phase-item" data-phase="evaluate">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Evaluating Policy...</span>
+              </div>
+              <div class="phase-item" data-phase="select">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Selecting Best Action...</span>
+              </div>
+              <div class="phase-item" data-phase="complete">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Decision Complete</span>
+              </div>
+            </div>
+
+            <div class="rl-result">
+              <span class="rl-result-label">Selected Action:</span>
+              <div id="actionResult" class="rl-action-value">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+
+        <div class="right-column">
+          <!-- SECTION 7: REWARD VISUALIZATION -->
+
+          <div class="card reward-card" id="rewardCard">
+            <h3>
+              <i class="fa-solid fa-trophy"></i>
+              Reward
+            </h3>
+
+            <div class="reward-display">
+              <div id="reward" class="reward-value">0</div>
+              <div class="reward-label">Points Earned</div>
+            </div>
+          </div>
+
+          <!-- SECTION 5: THREAT INTELLIGENCE DASHBOARD -->
+
+          <div class="card intel-card">
+            <h3>
+              <i class="fa-solid fa-shield-virus"></i>
+              Threat Intelligence
+            </h3>
+
+            <div id="intelList" class="intel-grid">
+              <div class="intel-empty">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span>No intelligence collected.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- ================= SECTION 6: LIVE EVENT FEED (Terminal) ================= -->
+
+      <section class="card full-width terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <span class="terminal-title">
+            <i class="fa-solid fa-terminal"></i>
+            Live Event Feed
+          </span>
+        </div>
+
+        <div id="log" class="terminal-body">
+          <span class="log-line"
+            >[System] Initialised — Awaiting attack simulation...</span
+          >
+        </div>
+      </section>
+
+      <!-- ================= SECTION 8: KPI STATISTICS ================= -->
+
+      <section class="summary">
+        <div class="summary-box">
+          <h3>
+            <i class="fa-solid fa-chart-line"></i>
+            Simulation Statistics
+          </h3>
+
+          <div class="summary-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon reward-icon">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <h2 id="totalReward">0</h2>
+              <span>Total Reward</span>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon depth-icon">
+                <i class="fa-solid fa-crosshairs"></i>
+              </div>
+              <h2 id="attackDepth">0</h2>
+              <span>Attack Depth</span>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon threat-icon">
+                <i class="fa-solid fa-database"></i>
+              </div>
+              <h2 id="threatCount">0</h2>
+              <span>Threats Collected</span>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon decision-icon">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <h2 id="decisionCount">0</h2>
+              <span>RL Decisions</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SECTION 11: SIMULATION COMPLETE MODAL ================= -->
+
+      <div class="modal-overlay" id="completionModal">
+        <div class="modal-content">
+          <div class="modal-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+
+          <h2>Simulation Complete</h2>
+          <p class="modal-subtitle">
+            Threat Intelligence Successfully Collected
+          </p>
+
+          <div class="modal-stats">
+            <div class="modal-stat">
+              <i class="fa-solid fa-trophy"></i>
+              <span class="modal-stat-value" id="modalReward">0</span>
+              <span class="modal-stat-label">Total Reward</span>
+            </div>
+
+            <div class="modal-stat">
+              <i class="fa-solid fa-database"></i>
+              <span class="modal-stat-value" id="modalThreats">0</span>
+              <span class="modal-stat-label">Threats Collected</span>
+            </div>
+
+            <div class="modal-stat">
+              <i class="fa-solid fa-crosshairs"></i>
+              <span class="modal-stat-value" id="modalDepth">0</span>
+              <span class="modal-stat-label">Attack Depth</span>
+            </div>
+
+            <div class="modal-stat">
+              <i class="fa-solid fa-brain"></i>
+              <span class="modal-stat-value" id="modalDecisions">0</span>
+              <span class="modal-stat-label">RL Decisions</span>
+            </div>
+          </div>
+
+          <button class="modal-btn" id="modalCloseBtn">
+            <i class="fa-solid fa-rotate-left"></i>
+            Start New Simulation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SCRIPT ================= -->
+
+    <script src="script.js"></script>
+  </body>
+</html>
